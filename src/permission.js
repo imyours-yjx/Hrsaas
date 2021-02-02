@@ -105,17 +105,21 @@ import router from '@/router'
 import store from '@/store'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+// import { getInfo } from './api/user'
 const alist = ['/login', '/404']
 
-console.log('c')
-router.beforeEach((to, from, next) => {
+// console.log('c')
+router.beforeEach(async(to, from, next) => {
   nprogress.start()
-  console.log('a')
+  // console.log('a')
   // 如果有token
   if (store.getters.token) {
     if (to.path === '/login') {
       next('/')
     } else {
+      if (!store.getters.userId) {
+        await store.dispatch('user/getInfo')
+      }
       next()
     }
   } else {
@@ -129,6 +133,6 @@ router.beforeEach((to, from, next) => {
   nprogress.done()
 })
 router.afterEach((to, from) => {
-  console.log('b')
+  // console.log('b')
   nprogress.done()
 })

@@ -8,10 +8,64 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
-
+export function getInfo() {
+  return request({
+    url: '/sys/profile',
+    method: 'POST'
+  })
 }
 
-export function logout() {
+export function getHeaderPhoto(id) {
+  return request({
+    url: `/sys/user/${id}`,
+    method: 'GET'
+  })
+}
 
+// export function logout() {
+
+// }
+export function getBuMen() {
+  return request({
+    url: '/company/department',
+    method: 'GET'
+  })
+}
+export function delBumen(id) {
+  return request({
+    url: `/company/department/${id}`,
+    method: 'DELETE'
+  })
+}
+export function addBumen(data) {
+  return request({
+    url: '/company/department',
+    method: 'POST',
+    data
+  })
+}
+export function getMan() {
+  return request({
+    url: '/sys/user/simple',
+    method: 'GET'
+  })
+}
+export function editBumen(id) {
+  return request({
+    url: `/company/department/${id}`,
+    method: 'GET'
+  })
+}
+export function editBumends(data) {
+  return request({
+    url: `/company/department/${data.id}`,
+    method: 'PUT',
+    data
+  })
+}
+export function getUser() {
+  return request({
+    url: '/sys/role',
+    method: 'GET'
+  })
 }

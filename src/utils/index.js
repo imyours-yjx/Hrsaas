@@ -115,3 +115,16 @@ export function param2Obj(url) {
   })
   return obj
 }
+export function tranList(list, value) {
+  var arr = []
+  list.forEach(item => {
+    if (item.pid === value) {
+      const children = tranList(list, item.id)
+      if (children.length > 0) {
+        item.children = children
+      }
+      arr.push(item)
+    }
+  })
+  return arr
+}

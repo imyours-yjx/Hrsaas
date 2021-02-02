@@ -94,10 +94,11 @@
 //   mutations,
 //   actions
 // }
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login } from '@/api/user'
+import { getToken, setToken, removeToken, setTime } from '@/utils/auth'
+import { login, getInfo, getHeaderPhoto } from '@/api/user'
 const state = {
-  token: getToken()
+  token: getToken(),
+  userInfo: {}
 }
 const mutations = {
   setToken(state, token) {
@@ -107,6 +108,15 @@ const mutations = {
   removeToken(state) {
     state.token = null
     removeToken()
+  },
+  setUserInfo(state, result) {
+    // result.username = '你爸爸'
+    state.userInfo = { ...result }
+    // state.userInfo.username = '周泳是个傻逼'
+    // setUserInfo(result)
+  },
+  removeUserInfo(state) {
+    state.userInfo = {}
   }
 }
 const actions = {
@@ -114,7 +124,19 @@ const actions = {
     const result = await login(data)
 
     context.commit('setToken', result)
+    setTime()
+  },
+  async getInfo(context) {
+    const result = await getInfo()
+    const baseInfo = await getHeaderPhoto(result.userId)
+    context.commit('setUserInfo', { ...result, ...baseInfo })
+    return result
+  },
+  logout(context) {
+    context.commit('removeToken')
+    context.commit('removeUserInfo')
   }
+
 }
 export default {
   namespaced: true,
